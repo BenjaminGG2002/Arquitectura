@@ -1,0 +1,42 @@
+/* header.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    position: fixed; /* Fija el header en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho de la página */
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px; /* Ajusta el espacio interior del header */
+    display: flex;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    height: 70px; /* Ajusta el tamaño de la imagen según sea necesario */
+    margin-right: 10px;
+}
+
+.logo-container h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.logo-container p {
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.content {
+    margin-top: 80px; /* Añade un margen para que el contenido no quede debajo del header */
+}

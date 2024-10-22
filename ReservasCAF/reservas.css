@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #003366; /* Fondo azul oscuro */
+    color: #FFFFFF; /* Texto en blanco */
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: flex-start; /* Alinea al inicio */
+    padding-top: 80px; /* Compensa el header fijo */
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 1100px;
+    width: 100%; /* Asegura que no se desborde en pantallas pequeñas */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF; /* Fondo de la caja en blanco */
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    overflow: auto; /* Para evitar que se esconda el contenido al crecer */
+}
+
+.main-content {
+    flex: 3;
+    background: #FFFFFF; /* Fondo en blanco */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    color: #003366; /* Texto azul oscuro */
+    overflow: auto; /* Permitir scroll si el contenido crece */
+}
+
+h2, h3 {
+    color: #FFCC00; /* Títulos en amarillo brillante */
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #003366; /* Etiquetas en azul oscuro */
+}
+
+.label-horario {
+    display: flex;
+    align-items: center;
+    gap: 1px; /* Espacio entre la etiqueta y el campo */
+}
+
+
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 2px solid #003366; /* Borde azul oscuro */
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+input[type="date"]:focus,
+select:focus {
+    border-color: #FFCC00; /* Borde amarillo al enfocar */
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.4); /* Sombra amarilla */
+}
+
+button {
+    display: inline-block;
+    background-color: #CCCCCC; /* Fondo neutro del botón */
+    color: #003366; /* Texto del botón en azul oscuro */
+    padding: 12px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #b3b3b3; /* Color más oscuro neutro al pasar sobre el botón */
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #f2f2f2; /* Fondo claro para los elementos de la lista */
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #003366; /* Texto en azul oscuro */
+}
+
+ul li p {
+    margin: 0;
+    color: #003366; /* Texto en azul oscuro */
+}
+
+.user-info {
+    flex: 2;
+    background-color: #FFFFFF; /* Fondo en blanco */
+    border: 2px solid #003366; /* Borde azul oscuro */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.user-info p {
+    margin: 12px 0;
+    color: #003366; /* Texto en azul oscuro */
+}
+
+.user-info strong {
+    color: #FFCC00; /* Destacado en amarillo */
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+form input,
+form select,
+form button {
+    flex: 1 1 calc(50% - 15px);
+    margin: 0;
+}
+
+form input[type="hidden"] {
+    display: none;
+}
+
+form button[type="submit"] {
+    background-color: #CCCCCC; /* Botón neutro para eliminar */
+}
+
+form button[type="submit"]:hover {
+    background-color: #b3b3b3; /* Botón más oscuro neutro al pasar */
+}
+
+form button[type="submit"][name="accion"][value="confirmar"] {
+    background-color: #80b3ff; /* Botón azul claro para confirmar */
+}
+
+form button[type="submit"][name="accion"][value="confirmar"]:hover {
+    background-color: #6699ff; /* Botón azul más oscuro al pasar */
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .user-info, .main-content {
+        width: 100%;
+    }
+
+    form input, form select, form button {
+        flex: 1 1 100%;
+    }
+}

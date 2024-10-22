@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #003366; /* Fondo azul oscuro */
+    color: #FFFFFF; /* Texto en blanco */
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.login-container {
+    background-color: #FFFFFF; /* Fondo de la caja en blanco */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra para darle más profundidad */
+    width: 100%;
+    max-width: 400px; /* Limitar el ancho máximo del formulario */
+    text-align: center; /* Centrar el contenido del formulario */
+}
+
+h2 {
+    color: #FFCC00; /* Título en amarillo */
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 2px solid #003366; /* Borde azul oscuro */
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #FFCC00; /* Borde amarillo al enfocar */
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.4); /* Sombra amarilla */
+}
+
+button {
+    display: inline-block;
+    background-color: #FFCC00; /* Fondo del botón en amarillo */
+    color: #003366; /* Texto del botón en azul oscuro */
+    padding: 12px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #e6b800; /* Color más oscuro al pasar sobre el botón */
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%; /* Asegurar que el formulario no se desborde en pantallas pequeñas */
+    }
+}
