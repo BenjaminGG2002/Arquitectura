@@ -175,3 +175,20 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*BEGIN
+    DECLARE cantidad_reservas INT;
+    
+    -- Contar cuántas reservas existen para el mismo horario y fecha que se está intentando reservar
+    SELECT COUNT(*) INTO cantidad_reservas
+    FROM reserva
+    WHERE Fecha_Reserva = NEW.Fecha_Reserva
+    AND Id_Horario = NEW.Id_Horario;
+
+    -- Si la cantidad de reservas es 20 o más, se lanza un error para prevenir la inserción
+    IF cantidad_reservas >= 20 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cupo límite alcanzado para este horario.';
+    END IF;
+END*/
+/*ALTER TABLE reserva
+ADD COLUMN Asistido ENUM('Asistido', 'No asistido') DEFAULT 'No asistido';*/
