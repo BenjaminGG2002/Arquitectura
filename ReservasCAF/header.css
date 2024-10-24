@@ -38,5 +38,10 @@ header {
 }
 
 .content {
-    margin-top: 80px; /* Añade un margen para que el contenido no quede debajo del header */
+    margin-top: 100px; /* Ajusta este valor según sea necesario */
+}
+@media (max-width: 768px) {
+    .content {
+        margin-top: 120px; /* Aumentar margen en pantallas pequeñas si el header es más alto */
+    }
 }
