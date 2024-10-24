@@ -1,14 +1,16 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #003366; /* Fondo azul oscuro */
+    background-image: url('img/puerto-montt-portada.jpg'); /* Asegúrate de que la ruta sea correcta */
+    background-size: cover; /* Que cubra todo el fondo */
+    background-position: center; /* Centrar la imagen */
     color: #FFFFFF; /* Texto en blanco */
-    height: 100vh;
+    min-height: 100vh; /* Asegurar que el cuerpo ocupe al menos la altura de la ventana */
     display: flex;
     justify-content: center; /* Centra horizontalmente */
-    align-items: flex-start; /* Alinea al inicio */
-    padding-top: 80px; /* Compensa el header fijo */
-    box-sizing: border-box;
+    align-items: flex-start; /* Alinear al principio en lugar de al centro */
+    padding-top: 100px; /* Para dejar espacio debajo del header */
+    overflow-y: auto; /* Permitir desplazamiento vertical */
 }
 
 .container {
@@ -21,24 +23,31 @@ body {
     width: 100%; /* Asegura que no se desborde en pantallas pequeñas */
     margin: 0 auto;
     padding: 20px;
-    background-color: #FFFFFF; /* Fondo de la caja en blanco */
-    border-radius: 12px;
+    
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
-    overflow: auto; /* Para evitar que se esconda el contenido al crecer */
+    overflow: hidden; /* Ocultar el desbordamiento */
 }
 
 .main-content {
     flex: 3;
-    background: #FFFFFF; /* Fondo en blanco */
+    background: #FFFFFF; /* Fondo blanco */
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
     color: #003366; /* Texto azul oscuro */
     overflow: auto; /* Permitir scroll si el contenido crece */
+    border: 2px solid #003366; /* Borde azul oscuro */
+}
+
+.reservas-list {
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    margin-top: 20px;
+    overflow-y: auto; /* Solo la lista de reservas será desplazable */
+    padding-right: 10px;
 }
 
 h2, h3 {
-    color: #FFCC00; /* Títulos en amarillo brillante */
+    color: #FFCC00;
     margin-bottom: 20px;
 }
 
@@ -46,22 +55,21 @@ label {
     display: block;
     margin-top: 15px;
     font-weight: bold;
-    color: #003366; /* Etiquetas en azul oscuro */
+    color: #003366;
 }
 
 .label-horario {
     display: flex;
     align-items: center;
-    gap: 1px; /* Espacio entre la etiqueta y el campo */
+    gap: 1px;
 }
-
 
 input[type="date"],
 select {
     width: 100%;
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid #003366; /* Borde azul oscuro */
+    border: 2px solid #003366;
     border-radius: 6px;
     box-sizing: border-box;
     transition: all 0.3s ease;
@@ -70,24 +78,25 @@ select {
 
 input[type="date"]:focus,
 select:focus {
-    border-color: #FFCC00; /* Borde amarillo al enfocar */
-    box-shadow: 0 0 8px rgba(255, 204, 0, 0.4); /* Sombra amarilla */
+    border-color: #FFCC00;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.4);
 }
 
-button {
-    display: inline-block;
-    background-color: #CCCCCC; /* Fondo neutro del botón */
-    color: #003366; /* Texto del botón en azul oscuro */
+button, .button {
+    background-color: #003366;
+    color: #FFFFFF;
     padding: 12px 18px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
 }
 
-button:hover {
-    background-color: #b3b3b3; /* Color más oscuro neutro al pasar sobre el botón */
+button:hover, .button:hover {
+    background-color: #001f4d;
 }
 
 ul {
@@ -96,7 +105,7 @@ ul {
 }
 
 ul li {
-    background-color: #f2f2f2; /* Fondo claro para los elementos de la lista */
+    background-color: #f2f2f2;
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 6px;
@@ -104,18 +113,13 @@ ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #003366; /* Texto en azul oscuro */
-}
-
-ul li p {
-    margin: 0;
-    color: #003366; /* Texto en azul oscuro */
+    color: #003366;
 }
 
 .user-info {
     flex: 2;
-    background-color: #FFFFFF; /* Fondo en blanco */
-    border: 2px solid #003366; /* Borde azul oscuro */
+    background-color: #FFFFFF;
+    border: 2px solid #003366;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -124,11 +128,11 @@ ul li p {
 
 .user-info p {
     margin: 12px 0;
-    color: #003366; /* Texto en azul oscuro */
+    color: #003366;
 }
 
 .user-info strong {
-    color: #FFCC00; /* Destacado en amarillo */
+    color: #FFCC00;
 }
 
 form {
@@ -148,26 +152,12 @@ form input[type="hidden"] {
     display: none;
 }
 
-form button[type="submit"] {
-    background-color: #CCCCCC; /* Botón neutro para eliminar */
-}
-
-form button[type="submit"]:hover {
-    background-color: #b3b3b3; /* Botón más oscuro neutro al pasar */
-}
-
-form button[type="submit"][name="accion"][value="confirmar"] {
-    background-color: #80b3ff; /* Botón azul claro para confirmar */
-}
-
-form button[type="submit"][name="accion"][value="confirmar"]:hover {
-    background-color: #6699ff; /* Botón azul más oscuro al pasar */
-}
-
+/* Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
         align-items: stretch;
+        height: auto; /* Para pantallas pequeñas */
     }
 
     .user-info, .main-content {
