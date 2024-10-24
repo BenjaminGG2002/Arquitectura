@@ -1,12 +1,16 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #003366; /* Fondo azul oscuro */
+    background-image: url('img/puerto-montt-portada.jpg'); /* Asegúrate de que la ruta sea correcta */
+    background-size: cover; /* Que cubra todo el fondo */
+    background-position: center; /* Centrar la imagen */
     color: #FFFFFF; /* Texto en blanco */
-    height: 100vh;
+    min-height: 100vh; /* Asegurar que el cuerpo ocupe al menos la altura de la ventana */
     display: flex;
     justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
+    align-items: flex-start; /* Alinear al principio en lugar de al centro */
+    padding-top: 100px; /* Para dejar espacio debajo del header */
+    overflow-y: auto; /* Permitir desplazamiento vertical */
 }
 
 .container {
@@ -20,6 +24,7 @@ body {
     background-color: #FFFFFF; /* Fondo de la caja en blanco */
     border-radius: 12px; /* Borde redondeado */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Solo una sombra para dar profundidad */
+    border: 2px solid #003366; /* Borde azul oscuro */
 }
 
 .main-content {
@@ -29,6 +34,7 @@ body {
     box-shadow: none; /* Eliminar sombra innecesaria */
     width: 100%;
     color: #003366; /* Asegurar el color del texto */
+    
 }
 
 h2 {
