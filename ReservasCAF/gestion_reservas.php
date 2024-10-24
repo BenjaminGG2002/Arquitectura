@@ -2,13 +2,13 @@
 session_start();
 include 'conexion.php';
 
-// Verificar si el usuario es administrador
+// Verificar si el usuario es administrador - Vicente
 if (!isset($_SESSION['tipo']) || $_SESSION['tipo'] != 'administrador') {
     header("Location: login.php");
     exit();
 }
 
-// Obtener todas las reservas
+// Obtener todas las reservas con los datos de usuario y horario - Vicente
 $sql_reservas = "SELECT r.*, u.PNombre_Usuario, u.PApellido_Usuario, h.Hora_Inicio, h.Hora_Fin 
                  FROM reserva r
                  JOIN usuario_duoc u ON r.Run_Usuario = u.Run_Usuario
@@ -20,18 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva']) && isse
     $id_reserva = $_POST['id_reserva'];
     $accion = $_POST['accion'];
 
-    // Procesar las acciones de confirmación, modificación y eliminación
+    // Procesar las acciones de modificar, asistido o no asistido - Vicente
     switch ($accion) {
-        case 'confirmar':
-            $sql_confirmar = "UPDATE reserva SET Estado = 'Confirmada' WHERE Id_Reserva = '$id_reserva'";
-            $enlace->query($sql_confirmar);
-            break;
-
-        case 'eliminar':
-            $sql_eliminar = "DELETE FROM reserva WHERE Id_Reserva = '$id_reserva'";
-            $enlace->query($sql_eliminar);
-            break;
-
         case 'modificar':
             if (isset($_POST['fecha']) && isset($_POST['id_horario'])) {
                 $nueva_fecha = $_POST['fecha'];
@@ -40,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva']) && isse
                 $fecha_actual = date('Y-m-d');
                 $dia_semana = date('N', strtotime($nueva_fecha));
 
+                // Validar que la nueva fecha no sea anterior a la actual y que sea de lunes a viernes - Vicente
                 if ($nueva_fecha < $fecha_actual) {
                     echo "<script>alert('No se puede modificar la reserva a una fecha anterior a la actual.');</script>";
                 } elseif ($dia_semana < 1 || $dia_semana > 5) {
@@ -55,11 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva']) && isse
             break;
 
         case 'asistido':
+            // Marcar reserva como Asistido - Vicente
             $sql_asistido = "UPDATE reserva SET Asistido = 'Asistido' WHERE Id_Reserva = '$id_reserva'";
             $enlace->query($sql_asistido);
             break;
 
         case 'no_asistido':
+            // Marcar reserva como No Asistido - Vicente
             $sql_no_asistido = "UPDATE reserva SET Asistido = 'No asistido' WHERE Id_Reserva = '$id_reserva'";
             $enlace->query($sql_no_asistido);
             break;
@@ -69,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva']) && isse
     exit();
 }
 ?>
+
 <?php include('header.php'); ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -101,13 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva']) && isse
                         <td><?php echo $reserva['Estado']; ?></td>
                         <td><?php echo $reserva['Asistido']; ?></td>
                         <td>
+                            <!-- Botón modificar con la misma clase "button" para el estilo uniforme - Vicente -->
+                            <button type="button" class="button" onclick="location.href='modificar_reserva.php?id_reserva=<?php echo $reserva['Id_Reserva']; ?>'">Modificar</button>
+
+                            <!-- Formulario para Asistido y No Asistido con botones uniformes - Vicente -->
                             <form method="POST" action="gestion_reservas.php">
                                 <input type="hidden" name="id_reserva" value="<?php echo $reserva['Id_Reserva']; ?>">
-                                <button type="submit" name="accion" value="confirmar">Confirmar</button>
-                                <button type="submit" name="accion" value="modificar">Modificar</button>
-                                <button type="submit" name="accion" value="eliminar">Eliminar</button>
-                                <button type="submit" name="accion" value="asistido">Marcar como Asistido</button>
-                                <button type="submit" name="accion" value="no_asistido">Marcar como No Asistido</button>
+                                <button type="submit" name="accion" value="asistido" class="button">Marcar como Asistido</button>
+                                <button type="submit" name="accion" value="no_asistido" class="button">Marcar como No Asistido</button>
                             </form>
                         </td>
                     </tr>
@@ -115,13 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva']) && isse
             </tbody>
         </table>
 
-        <!-- Botón para redirigir a la página de reporte -->
-        <a href="reporte_reservas.php" class="button">Ir a Reporte de Reservas</a>
+        <div class="button-container">
+            <a href="reporte_reservas.php" class="button">Ir a Reporte de Reservas</a>
+            <form action="login.php" method="POST">
+                <button type="submit">Salir</button>
+            </form>
+        </div>
 
-        <!-- Botón de cerrar sesión -->
-        <form action="login.php" method="POST" style="margin-top: 20px;">
-            <button type="submit">Salir</button>
-        </form>
     </div>
 </body>
 </html>
