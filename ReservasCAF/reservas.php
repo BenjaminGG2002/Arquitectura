@@ -13,16 +13,17 @@ $tipo_usuario = $_SESSION['tipo'];
 
 // Verificar si es un usuario regular, y no un administrador
 if ($tipo_usuario == 'administrador') {
-    // Si es administrador, redirigir a la página de gestión de reservas
     header("Location: gestion_reservas.php");
     exit();
 }
 
 // Cargar la información del usuario si es un usuario regular
-$sql_usuario = "SELECT * FROM usuario_duoc WHERE Run_Usuario = '$run_usuario'";
-$usuario_result = $enlace->query($sql_usuario);
+$sql_usuario = "SELECT * FROM usuario_duoc WHERE Run_Usuario = ?";
+$stmt_usuario = $enlace->prepare($sql_usuario);
+$stmt_usuario->bind_param("s", $run_usuario);
+$stmt_usuario->execute();
+$usuario_result = $stmt_usuario->get_result();
 
-// Verificar si la consulta devolvió un resultado
 if ($usuario_result->num_rows > 0) {
     $usuario = $usuario_result->fetch_assoc();
 } else {
@@ -42,10 +43,10 @@ while ($horario = $horarios_result->fetch_assoc()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_POST['id_horario'])) {
     $fecha_reserva = $_POST['fecha'];
     $id_horario = $_POST['id_horario'];
-    
+
     // Obtener la fecha actual
     $fecha_actual = date('Y-m-d');
-    
+
     // Verificar que la fecha no sea anterior a la actual
     if ($fecha_reserva < $fecha_actual) {
         echo "<script>alert('No se puede reservar en una fecha anterior a la actual.');</script>";
@@ -56,20 +57,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_P
             echo "<script>alert('Solo se pueden hacer reservas de lunes a viernes.');</script>";
         } else {
             // Verificar si el usuario ya tiene una reserva en la misma fecha
-            $sql_check = "SELECT * FROM reserva WHERE Run_Usuario = '$run_usuario' AND Fecha_Reserva = '$fecha_reserva'";
-            $check_result = $enlace->query($sql_check);
+            $sql_check = "SELECT * FROM reserva WHERE Run_Usuario = ? AND Fecha_Reserva = ?";
+            $stmt_check = $enlace->prepare($sql_check);
+            $stmt_check->bind_param("ss", $run_usuario, $fecha_reserva);
+            $stmt_check->execute();
+            $check_result = $stmt_check->get_result();
 
             if ($check_result->num_rows > 0) {
                 echo "<script>alert('Ya tienes una reserva para esta fecha. Solo se permite una reserva por día.');</script>";
             } else {
                 // Insertar la nueva reserva
                 $sql_insert = "INSERT INTO reserva (Fecha_Reserva, Run_Usuario, Id_Horario, Estado, Fecha_Actividad, Limite_Usuario) 
-                               VALUES ('$fecha_reserva', '$run_usuario', '$id_horario', 'Pendiente', CURDATE(), 20)";
-                try {
-                    $enlace->query($sql_insert);
+                               VALUES (?, ?, ?, 'Pendiente', CURDATE(), 20)";
+                $stmt_insert = $enlace->prepare($sql_insert);
+                $stmt_insert->bind_param("ssi", $fecha_reserva, $run_usuario, $id_horario);
+
+                if ($stmt_insert->execute()) {
                     echo "<script>alert('Reserva realizada con éxito.'); window.location.href = 'reservas.php';</script>";
-                } catch (mysqli_sql_exception $e) {
-                    echo "<script>alert('Error al realizar la reserva: " . $e->getMessage() . "');</script>";
+                } else {
+                    echo "<script>alert('Error al realizar la reserva: " . $enlace->error . "');</script>";
                 }
             }
         }
@@ -79,8 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_P
 // Obtener las reservas del usuario
 $sql_reservas = "SELECT r.*, h.Hora_Inicio, h.Hora_Fin FROM reserva r 
                  JOIN horario h ON r.Id_Horario = h.Id_Horario 
-                 WHERE r.Run_Usuario = '$run_usuario'";
-$reservas_result = $enlace->query($sql_reservas);
+                 WHERE r.Run_Usuario = ?";
+$stmt_reservas = $enlace->prepare($sql_reservas);
+$stmt_reservas->bind_param("s", $run_usuario);
+$stmt_reservas->execute();
+$reservas_result = $stmt_reservas->get_result();
 $reservas = [];
 while ($reserva = $reservas_result->fetch_assoc()) {
     $reservas[] = $reserva;
@@ -104,14 +113,18 @@ while ($reserva = $reservas_result->fetch_assoc()) {
             <form method="POST" action="reservas.php">
                 <label for="fecha">Fecha:</label>
                 <input type="date" id="fecha" name="fecha" required>
-                <label for="id_horario">Horario:</label>
-                <select name="id_horario" required>
-                    <?php foreach ($horarios as $id_horario => $horario): ?>
-                        <option value="<?php echo $id_horario; ?>">
-                            <?php echo $horario['Hora_Inicio'] . ' - ' . $horario['Hora_Fin']; ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+
+                <div class="label-horario">
+                    <label for="id_horario">Horario:</label>
+                    <select name="id_horario" required>
+                        <?php foreach ($horarios as $id_horario => $horario): ?>
+                            <option value="<?php echo $id_horario; ?>">
+                                <?php echo $horario['Hora_Inicio'] . ' - ' . $horario['Hora_Fin']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
                 <button type="submit">Reservar</button>
             </form>
 
@@ -125,12 +138,12 @@ while ($reserva = $reservas_result->fetch_assoc()) {
                         Estado: <?php echo $reserva['Estado']; ?>
                         <form method="POST" action="acciones_reserva.php">
                             <input type="hidden" name="id_reserva" value="<?php echo $reserva['Id_Reserva']; ?>">
-                            <button type="submit" name="accion" value="confirmar">Confirmar</button>
-                            <button type="submit" name="accion" value="eliminar">Eliminar</button>
+                            <button type="submit" name="accion" value="confirmar" class="button">Confirmar</button>
+                            <button type="submit" name="accion" value="eliminar" class="button">Eliminar</button>
                         </form>
                         <form method="GET" action="modificar_reserva.php">
                             <input type="hidden" name="id_reserva" value="<?php echo $reserva['Id_Reserva']; ?>">
-                            <button type="submit">Modificar</button>
+                            <button type="submit" class="button">Modificar</button>
                         </form>
                     </li>
                 <?php endforeach; ?>
@@ -151,8 +164,8 @@ while ($reserva = $reservas_result->fetch_assoc()) {
             <?php else: ?>
                 <p>Error: No se pudo obtener la información del usuario.</p>
             <?php endif; ?>
-            <form action="Login.php" method="POST">
-                <button type="submit" class="logout-button">Salir</button>
+            <form action="login.php" method="POST">
+                <button type="submit" class="button">Salir</button>
             </form>
         </div>
     </div>
