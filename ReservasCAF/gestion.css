@@ -2,16 +2,17 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #003366; /* Fondo azul oscuro */
-    color: #FFFFFF; /* Texto en blanco */
+    background-color: #003366; 
+    color: #FFFFFF;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 80px; /* Compensa el header fijo */
+    padding-top: 80px; 
     box-sizing: border-box;
 }
 
+/* Estilo de la caja contenedora principal - Vicente */
 .container {
     display: flex;
     flex-direction: column;
@@ -21,129 +22,102 @@ body {
     max-width: 1200px;
     width: 100%;
     padding: 20px;
-    background-color: #FFFFFF; /* Fondo de la caja en blanco */
+    background-color: #FFFFFF;
     border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra */
-    color: #003366; /* Texto azul oscuro */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    color: #003366;
 }
 
-/* Encabezados */
+/* Estilo para los encabezados principales - Vicente */
 h2 {
-    color: #FFCC00; /* Títulos en amarillo brillante */
+    color: #FFCC00; /* Títulos en amarillo brillante - Vicente */
     margin-bottom: 20px;
     font-size: 1.8em;
     text-align: center;
 }
 
-h3 {
-    color: #003366;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-}
-
-/* Estilo de las tablas */
+/* Bordes de celdas y alineación en tablas */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: #FFFFFF; /* Fondo de la tabla en blanco */
+    background-color: #FFFFFF;
 }
 
+/* Estilo para las celdas de las tablas - Vicente */
 th, td {
     text-align: left;
     padding: 15px;
-    border-bottom: 1px solid #ddd;
-    color: #003366; /* Texto en azul oscuro */
+    border-bottom: 1px solid #ddd; /* Líneas divisorias en la tabla - Vicente */
 }
 
+/* Estilo para las celdas de encabezado - Vicente */
 th {
-    background-color: #FFCC00; /* Fondo de encabezado en amarillo brillante */
-    color: #003366; /* Texto de encabezado en azul oscuro */
+    background-color: #FFCC00; 
     text-transform: uppercase;
     font-size: 1em;
 }
 
+/* Estilo para las filas al pasar el cursor - Vicente */
 tr:hover {
-    background-color: #f2f2f2; /* Fondo de fila al pasar sobre ella */
+    background-color: #f2f2f2; /* Fondo al pasar el cursor - Vicente */
 }
 
-/* Botones */
-button, .button {
-    background-color: #CCCCCC; /* Fondo neutro */
-    color: #003366; /* Texto del botón en azul oscuro */
-    padding: 12px 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+/* Contenedor de botones - Vicente */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Estilo general para botones - Vicente */
+.button {
+    flex: 1;
+    padding: 10px 15px;
     text-align: center;
-    text-decoration: none;
 }
 
 button:hover, .button:hover {
-    background-color: #b3b3b3; /* Botón más oscuro al pasar */
+    background-color: #001f4d; 
 }
 
-.button {
-    display: inline-block;
-}
-
-/* Estilo de los formularios */
+/* Estilo para los formularios  - Vicente */
 form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
+/* Estilo para los campos de texto, fecha y select - Vicente */
 input[type="text"], input[type="date"], select {
     width: 100%;
     padding: 10px;
     border: 2px solid #003366;
     border-radius: 6px;
-    background-color: #f9f9f9;
-    color: #003366;
-    transition: border-color 0.3s ease;
 }
 
+/* Estilo al enfocar los campos de texto, fecha y select - Vicente */
 input[type="text"]:focus, input[type="date"]:focus, select:focus {
-    border-color: #FFCC00;
-    box-shadow: 0 0 8px rgba(255, 204, 0, 0.4); /* Sombra amarilla */
+    border-color: #FFCC00; 
+}
+
 }
 
 /* Información del usuario */
 .user-info {
-    background-color: #FFFFFF; /* Fondo en blanco */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    color: #003366; /* Texto azul oscuro */
-    border: 2px solid #003366; /* Borde azul oscuro */
+    border: 2px solid #003366;
 }
 
 .user-info strong {
-    color: #FFCC00; /* Color amarillo para el texto destacado */
+    color: #FFCC00; /* Color amarillo para destacar texto - Vicente */
 }
 
-.user-info p {
-    margin: 12px 0;
-}
-
-/* Estilos específicos para dispositivos móviles */
+/* Adaptación a dispositivos móviles */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
-    }
-
-    h2 {
-        font-size: 1.5em;
-    }
-
-    table {
-        font-size: 0.9em;
-    }
-
-    button {
-        padding: 10px 16px;
     }
 }
