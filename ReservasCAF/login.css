@@ -1,7 +1,10 @@
+/* Fondo de la página con una imagen */
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #003366; /* Fondo azul oscuro */
+    background-image: url('img/puerto-montt-portada.jpg'); /* Asegúrate de que la ruta sea correcta */
+    background-size: cover; /* Que cubra todo el fondo */
+    background-position: center; /* Centrar la imagen */
     color: #FFFFFF; /* Texto en blanco */
     height: 100vh;
     display: flex;
@@ -9,8 +12,9 @@ body {
     align-items: center; /* Centra verticalmente */
 }
 
+/* Estilo del contenedor del formulario */
 .login-container {
-    background-color: #FFFFFF; /* Fondo de la caja en blanco */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo de la caja semi-transparente */
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra para darle más profundidad */
@@ -19,11 +23,13 @@ body {
     text-align: center; /* Centrar el contenido del formulario */
 }
 
+/* Estilo del título */
 h2 {
     color: #FFCC00; /* Título en amarillo */
     margin-bottom: 20px;
 }
 
+/* Estilo de los campos de texto */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -44,6 +50,7 @@ input[type="password"]:focus {
     box-shadow: 0 0 8px rgba(255, 204, 0, 0.4); /* Sombra amarilla */
 }
 
+/* Estilo del botón de ingresar */
 button {
     display: inline-block;
     background-color: #FFCC00; /* Fondo del botón en amarillo */
@@ -61,8 +68,20 @@ button:hover {
     background-color: #e6b800; /* Color más oscuro al pasar sobre el botón */
 }
 
+/* Estilo para pantallas pequeñas */
 @media (max-width: 768px) {
     .login-container {
         width: 90%; /* Asegurar que el formulario no se desborde en pantallas pequeñas */
     }
+}
+
+/* Cuadro para mostrar el mensaje de error */
+.error-box {
+    background-color: rgba(255, 0, 0, 0.1); /* Fondo rojo claro */
+    color: #FF0000; /* Texto rojo */
+    border: 1px solid #FF0000; /* Borde rojo */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
 }
