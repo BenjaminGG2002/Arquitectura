@@ -12,36 +12,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Asegurarse de que todos los campos estén presentes
     if ($run && $email && $password) {
         // Preparar la consulta para verificar si es un administrador
-        $sql_admin = "SELECT * FROM administrador WHERE Run_Administrador = ? AND Mail_Administrador = ? AND Contraseña_Administrador = ?";
+        $sql_admin = "SELECT * FROM administrador WHERE Run_Administrador = ? AND Mail_Administrador = ?";
         $stmt_admin = $enlace->prepare($sql_admin);
-        $stmt_admin->bind_param("sss", $run, $email, $password);
+        $stmt_admin->bind_param("ss", $run, $email);
         $stmt_admin->execute();
         $result_admin = $stmt_admin->get_result();
 
-        // Si es administrador, redirigir a la gestión de reservas
+        // Si es administrador, verificar el hash de la contraseña
         if ($result_admin->num_rows > 0) {
-            // Guardar el Run_Administrador en la sesión
-            $_SESSION['run'] = $run;
-            $_SESSION['tipo'] = 'administrador';
-            header("Location: gestion_reservas.php"); // Redirigir a la gestión de reservas
-            exit();
+            $admin_data = $result_admin->fetch_assoc();
+            // Verificar si la contraseña proporcionada coincide con el hash
+            if (password_verify($password, $admin_data['Contraseña_Administrador'])) {
+                // Guardar el Run_Administrador en la sesión
+                $_SESSION['run'] = $run;
+                $_SESSION['tipo'] = 'administrador';
+                header("Location: gestion_reservas.php"); // Redirigir a la gestión de reservas
+                exit();
+            }
         }
         $stmt_admin->close();
 
         // Si no es administrador, verificar si es un usuario regular
-        $sql_user = "SELECT * FROM usuario_duoc WHERE Run_Usuario = ? AND Mail_Usuario = ? AND Contraseña_Usuario = ?";
+        $sql_user = "SELECT * FROM usuario_duoc WHERE Run_Usuario = ? AND Mail_Usuario = ?";
         $stmt_user = $enlace->prepare($sql_user);
-        $stmt_user->bind_param("sss", $run, $email, $password);
+        $stmt_user->bind_param("ss", $run, $email);
         $stmt_user->execute();
         $result_user = $stmt_user->get_result();
 
-        // Si es un usuario regular, redirigir a la página de reservas
+        // Si es un usuario regular, verificar el hash de la contraseña
         if ($result_user->num_rows > 0) {
-            // Guardar el Run_Usuario en la sesión
-            $_SESSION['run'] = $run;
-            $_SESSION['tipo'] = 'usuario';
-            header("Location: reservas.php"); // Redirigir a la página de reservas
-            exit();
+            $user_data = $result_user->fetch_assoc();
+            // Verificar si la contraseña proporcionada coincide con el hash
+            if (password_verify($password, $user_data['Contraseña_Usuario'])) {
+                // Guardar el Run_Usuario en la sesión
+                $_SESSION['run'] = $run;
+                $_SESSION['tipo'] = 'usuario';
+                header("Location: reservas.php"); // Redirigir a la página de reservas
+                exit();
+            }
         } else {
             $error = "Credenciales incorrectas";
         }
@@ -51,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 
 <?php include('header.php'); ?>
 
